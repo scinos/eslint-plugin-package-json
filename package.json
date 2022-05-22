@@ -1,0 +1,15 @@
+{
+  "name": "@scinos/eslint-plugin-package-json",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "git@github.com:scinos/eslint-plugin-package-json.git",
+  "author": "Sergio Cinos <sergio.cinos@gmail.com>",
+  "license": "MIT",
+  "packageManager": "yarn@3.2.1",
+  "devDependencies": {
+    "npm-package-json-lint": "^6.3.0"
+  },
+  "scripts": {
+    "test": "cd test/integration/npm-package-json-lint; yarn install; yarn lint"
+  }
+}
