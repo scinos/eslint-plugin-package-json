@@ -7,9 +7,15 @@
   "license": "MIT",
   "packageManager": "yarn@3.2.1",
   "devDependencies": {
-    "npm-package-json-lint": "^6.3.0"
+    "eslint": "^8.16.0",
+    "jest": "^28.1.0"
   },
   "scripts": {
-    "test": "cd test/integration/npm-package-json-lint; yarn install; yarn lint"
+    "test": "jest"
+  },
+  "dependencies": {
+    "dash-ast": "^2.0.1",
+    "espree": "^9.3.2",
+    "esprima": "^4.0.1"
   }
 }

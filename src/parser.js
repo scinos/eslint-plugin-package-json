@@ -1,21 +1,36 @@
+const espree = require("espree");
+const dashAst = require("dash-ast");
+
 module.exports = {
-  parseForESLint(code, { filePath }) {
-    // We don't have JS, so this AST is for empty JS file
+  parseForESLint(code, options) {
+    const { filePath } = options;
+
+    const ast = espree.parse(`(\n${code}\n)`, {
+      tokens: false,
+      comment: true,
+      loc: true,
+      range: true,
+    });
+
+    dashAst(ast, function (node) {
+      // Move two characters left (paren and line break)
+      node.start = Math.max(node.start - 2, 0);
+      node.end = Math.max(node.end - 2, 0);
+      node.range = [node.start, node.end];
+
+      // Move one line up
+      node.loc.start.line = Math.max(node.loc.start.line - 1, 1);
+      node.loc.end.line = Math.max(node.loc.end.line - 1, 1);
+    });
+    // Remove the last two characters (line break and paren)
+    ast.end = ast.end - 2;
+    ast.range = [ast.start, ast.end];
+    ast.body[0] = ast.body[0].expression;
+    ast.loc = ast.body[0].loc;
+    ast.tokens = [];
+
     return {
-      ast: {
-        type: "Program",
-        start: 0,
-        end: 0,
-        loc: { start: { line: 1, column: 0 }, end: { line: 1, column: 0 } },
-        range: [0, 0],
-        body: [],
-        tokens: [],
-        comments: [],
-      },
-      services: {
-        getPackageJson: () => code,
-        getPath: () => filePath,
-      },
+      ast,
     };
   },
 };
