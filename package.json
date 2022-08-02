@@ -13,6 +13,9 @@
   "scripts": {
     "test": "jest"
   },
+  "peerDependencies": {
+    "eslint": ">=8"
+  },
   "dependencies": {
     "dash-ast": "^2.0.1",
     "espree": "^9.3.2",

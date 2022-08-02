@@ -19,8 +19,16 @@ module.exports = {
       node.range = [node.start, node.end];
 
       // Move one line up
-      node.loc.start.line = Math.max(node.loc.start.line - 1, 1);
-      node.loc.end.line = Math.max(node.loc.end.line - 1, 1);
+      // Some nodes share the same object for start or end. In those cases, this callback will visit that start/end
+      // object many times, but we only need to fix it once. Hence the fixed attribute
+      if (!node.loc.start.fixed) {
+        node.loc.start.line = Math.max(node.loc.start.line - 1, 1);
+        node.loc.start.fixed = true;
+      }
+      if (!node.loc.end.fixed) {
+        node.loc.end.line = Math.max(node.loc.end.line - 1, 1);
+        node.loc.end.fixed = true;
+      }
     });
     // Remove the last two characters (line break and paren)
     ast.end = ast.end - 2;
