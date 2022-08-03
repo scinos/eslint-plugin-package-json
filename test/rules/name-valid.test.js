@@ -48,6 +48,8 @@ ruleTester.run(`name-valid`, rule["name-valid"], {
       "Name must contain only URL-safe characters: alphanumeric (a-z and 0-9), dash (-), dot (.), underscore(_) or tilde(~)"
     ),
     invalid("@scope", "Name with a scope must contain a '/' too"),
+    invalid("@/", "Scope can't be empty"),
+    invalid("@scope/", "Name can't be empty"),
     invalid("@.scope/name", "Scope can't start with a dot"),
     invalid("@-scope/name", "Scope can't start with a dash"),
     invalid(

@@ -22,13 +22,29 @@ module.exports = {
           }
 
           if (name.startsWith("@")) {
-            const [scope, packageName] = name.split("/");
-            const scopeName = scope.substr(1);
-
-            if (!packageName) {
+            if (!name.includes("/")) {
               context.report({
                 node: nameNode,
                 message: `Name with a scope must contain a '/' too`,
+              });
+              return;
+            }
+
+            const [scope, packageName] = name.split("/");
+            const scopeName = scope.substr(1);
+
+            if (!scopeName.length) {
+              context.report({
+                node: nameNode,
+                message: `Scope can't be empty`,
+              });
+              return;
+            }
+
+            if (!packageName.length) {
+              context.report({
+                node: nameNode,
+                message: `Name can't be empty`,
               });
               return;
             }
